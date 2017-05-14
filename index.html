@@ -1,11 +1,33 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+    <title>Nonogram Editor</title>
     <script type="text/javascript" src="bower_components/mustache.js/mustache.js"></script>
+    <style>
+      .active {
+        background-color: black;
+        width: 20px;
+        height: 20px;
+      }
+      .inactive {
+        background: gray;
+        width: 20px;
+        height: 20px;
+      }
+
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    </style>
   </head>
-  <body onload="loadUser()">
+  <body onload="renderPuzzle()">
     <script id="template" type="x-tmpl-mustache" src="templates/app.mustache">
-      Hello {{ name }}!
+      <div id="container" style="width:{{containerWidth}}px;">
+        {{#squares}}
+        <div class="{{class}}" onclick="toggleItem({{row}}, {{col}})"></div>
+        {{/squares}}
+      </div>
     </script>    
     <script type="text/javascript" src="js/app.js"></script>
     <div>

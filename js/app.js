@@ -1,10 +1,3 @@
-function loadUser() {
-  var template = document.getElementById("template").innerHTML;
-  Mustache.parse(template);   // optional, speeds up future uses
-  var rendered = Mustache.render(template, {name: "Luke"});
-  document.getElementById("target").innerHTML = rendered
-}
-
 var min = 5;
 var max = 20;
 var width = min;
@@ -21,6 +14,7 @@ function setSize() {
   console.log("Width: ", width);
   console.log("Height: ", height);
   console.log("Puzzle", puzzle);
+  renderPuzzle();
 }
 
 function minMaxCheck(object) {
@@ -32,10 +26,32 @@ function minMaxCheck(object) {
   }
 }
 
-function selectItem(row, col) {
+function toggleItem(row, col) {
+  var idx = row * width + col;
+  if(idx >= puzzle.length || idx < 0) {
+    console.log("Invalid row, col")
+    return 
+  } 
 
+  puzzle[idx] = !puzzle[idx];
+  renderPuzzle();
 }
 
 function renderPuzzle() {
-  console.log("Rendering puzzle");
+  var renderObj = {
+    containerWidth: width * 20,
+    squares : []
+  };
+  for(var i = 0; i < width*height; i++) {
+    renderObj.squares.push({
+      class: (puzzle[i]) ? "active" : "inactive",
+      row: Math.floor(i / width),
+      col: (i % width)
+    });
+  }
+
+  var template = document.getElementById("template").innerHTML;
+  Mustache.parse(template);   // optional, speeds up future uses
+  var rendered = Mustache.render(template, renderObj);
+  document.getElementById("target").innerHTML = rendered
 }
