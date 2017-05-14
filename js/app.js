@@ -39,12 +39,14 @@ function toggleItem(row, col) {
 
 function renderPuzzle() {
   var renderObj = {
-    containerWidth: width * 20,
+    containerWidth: width * 22,
+    topSel: width+1,
+    leftSel: width,
     squares : []
   };
   for(var i = 0; i < width*height; i++) {
     renderObj.squares.push({
-      class: (puzzle[i]) ? "active" : "inactive",
+      class: (puzzle[i]) ? "active" : "",
       row: Math.floor(i / width),
       col: (i % width)
     });
