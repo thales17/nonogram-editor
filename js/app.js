@@ -40,10 +40,16 @@ function toggleItem(row, col) {
 function renderPuzzle() {
   var renderObj = {
     containerWidth: width * 22,
-    topSel: width+1,
-    leftSel: width,
+    cols: width,
+    sectionV1: (width > 5) ? "" + width + "n - " + (width - 5) : "",
+    sectionH1: (height > 5) ? "nth-child(n + " + ((width * 4) + 1) + "):nth-child(-n +" + (width * 5) + ")" : "",
+    sectionV2: (width > 10) ? "" + width + "n - " + (width - 10) : "",
+    sectionH2: (height > 10) ? "nth-child(n + " + ((width * 9) + 1) + "):nth-child(-n +" + (width * 10) + ")" : "",
+    sectionV3: (width > 15) ? "" + width + "n - " + (width - 15) : "",
+    sectionH3: (height > 15) ? "nth-child(n + " + ((width * 14) + 1) + "):nth-child(-n +" + (width * 15) + ")" : "",
     squares : []
   };
+  console.log(renderObj);
   for(var i = 0; i < width*height; i++) {
     renderObj.squares.push({
       class: (puzzle[i]) ? "active" : "",

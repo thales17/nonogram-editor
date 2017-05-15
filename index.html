@@ -11,6 +11,7 @@
         border-right: 1px solid black;
         border-bottom: 1px solid black;
       }
+
       .cell:hover{
         filter: brightness(85%);
       }
@@ -29,15 +30,34 @@
   </head>
   <body onload="renderPuzzle()">
     <script id="template" type="x-tmpl-mustache" src="templates/app.mustache">
+      <style>
+        .cell:nth-child({{cols}}n+1) {
+          border-left: 1px solid black;
+        }
+        .cell:nth-child(-n+{{cols}}) {
+          border-top: 1px solid black;
+        }
+        .cell:nth-child({{sectionV1}}) {
+          border-right: 2px solid blue;
+        }
+        .cell:{{sectionH1}} {
+          border-bottom: 2px solid blue;
+        }
+        .cell:nth-child({{sectionV2}}) {
+          border-right: 2px solid blue;
+        }
+        .cell:{{sectionH2}} {
+          border-bottom: 2px solid blue;
+        }
+        .cell:nth-child({{sectionV3}}) {
+          border-right: 2px solid blue;
+        }
+        .cell:{{sectionH3}} {
+          border-bottom: 2px solid blue;
+        }
+
+      </style>
       <div id="container" style="width:{{containerWidth}}px;">
-        <style>
-          .cell:nth-child({{leftSel}}n+2) {
-            border-left: 1px solid black;
-          }
-          .cell:nth-child(-n+{{topSel}}) {
-            border-top: 1px solid black;
-          }
-        </style>
         {{#squares}}
         <div class="cell {{class}}" onclick="toggleItem({{row}}, {{col}})"></div>
         {{/squares}}
