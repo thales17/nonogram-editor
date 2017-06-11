@@ -6,8 +6,8 @@ var puzzle = new Array(width*height);
 puzzle.fill(false);
 
 function setSize() {
-  width = document.getElementById("width").value;
-  height = document.getElementById("height").value;
+  width = parseInt(document.getElementById("puzzleWidth").value);
+  height = parseInt(document.getElementById("puzzleHeight").value);
 
   puzzle = new Array(width * height);
   puzzle.fill(false);
@@ -39,7 +39,6 @@ function toggleItem(row, col) {
 
 function renderPuzzle() {
   var clueCount = Math.ceil((Math.max(width, height) / 2));
-  console.log("ClueCount: " + clueCount);
   var w = width + clueCount;
   var h = height + clueCount;
   var renderObj = {
@@ -61,6 +60,9 @@ function renderPuzzle() {
     var tag = "puzzle-clue";
     if(r-clueCount > -1 && c-clueCount > -1) {
       tag = "puzzle-cell";
+    }
+    if(r-clueCount < 0 && c-clueCount < 0) {
+      tag = "puzzle-blank";
     }
     renderObj.squares.push({
       class: (puzzle[i]) ? "active" : "",
