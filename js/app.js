@@ -38,23 +38,35 @@ function toggleItem(row, col) {
 }
 
 function renderPuzzle() {
+  var clueCount = Math.ceil((Math.max(width, height) / 2));
+  console.log("ClueCount: " + clueCount);
+  var w = width + clueCount;
+  var h = height + clueCount;
   var renderObj = {
-    containerWidth: width * 22,
+    containerWidth: w * 22,
     cols: width,
     sectionV1: (width > 5) ? "" + width + "n - " + (width - 5) : "",
-    sectionH1: (height > 5) ? "nth-child(n + " + ((width * 4) + 1) + "):nth-child(-n +" + (width * 5) + ")" : "",
+    sectionH1: (height > 5) ? "nth-of-type(n + " + ((width * 4) + 1) + "):nth-of-type(-n +" + (width * 5) + ")" : "",
     sectionV2: (width > 10) ? "" + width + "n - " + (width - 10) : "",
-    sectionH2: (height > 10) ? "nth-child(n + " + ((width * 9) + 1) + "):nth-child(-n +" + (width * 10) + ")" : "",
+    sectionH2: (height > 10) ? "nth-of-type(n + " + ((width * 9) + 1) + "):nth-of-type(-n +" + (width * 10) + ")" : "",
     sectionV3: (width > 15) ? "" + width + "n - " + (width - 15) : "",
-    sectionH3: (height > 15) ? "nth-child(n + " + ((width * 14) + 1) + "):nth-child(-n +" + (width * 15) + ")" : "",
+    sectionH3: (height > 15) ? "nth-of-type(n + " + ((width * 14) + 1) + "):nth-of-type(-n +" + (width * 15) + ")" : "",
     squares : []
   };
   console.log(renderObj);
-  for(var i = 0; i < width*height; i++) {
+  
+  for(var i = 0; i < w*h; i++) {
+    var r =  Math.floor(i / w);
+    var c = (i % h);
+    var tag = "puzzle-clue";
+    if(r-clueCount > -1 && c-clueCount > -1) {
+      tag = "puzzle-cell";
+    }
     renderObj.squares.push({
       class: (puzzle[i]) ? "active" : "",
-      row: Math.floor(i / width),
-      col: (i % width)
+      row: r-clueCount,
+      col: c-clueCount,
+      tag: tag,
     });
   }
 

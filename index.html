@@ -4,15 +4,27 @@
     <title>Nonogram Editor</title>
     <script type="text/javascript" src="bower_components/mustache.js/mustache.js"></script>
     <style>
-      .cell {
+      puzzle-cell {
         width: 20px;
         height: 20px;
         background-color: white;
         border-right: 1px solid black;
         border-bottom: 1px solid black;
       }
+      
+      puzzle-cell:hover{
+        filter: brightness(85%);
+      }
 
-      .cell:hover{
+      puzzle-clue {
+        width: 20px;
+        height: 20px;
+        background-color: orange;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+      }
+      
+      puzzle-clue:hover{
         filter: brightness(85%);
       }
 
@@ -40,51 +52,34 @@
   <body onload="renderPuzzle()">
     <script id="template" type="x-tmpl-mustache" src="templates/app.mustache">
       <style>
-        .cell:nth-child({{cols}}n+1) {
+        puzzle-cell:nth-of-type({{cols}}n+1) {
           border-left: 1px solid black;
         }
-        .cell:nth-child(-n+{{cols}}) {
+        puzzle-cell:nth-of-type(-n+{{cols}}) {
           border-top: 1px solid black;
         }
-        .cell:nth-child({{sectionV1}}) {
+        puzzle-cell:nth-of-type({{sectionV1}}) {
           border-right: 2px solid blue;
         }
-        .cell:{{sectionH1}} {
+        puzzle-cell:{{sectionH1}} {
           border-bottom: 2px solid blue;
         }
-        .cell:nth-child({{sectionV2}}) {
+        puzzle-cell:nth-of-type({{sectionV2}}) {
           border-right: 2px solid blue;
         }
-        .cell:{{sectionH2}} {
+        puzzle-cell:{{sectionH2}} {
           border-bottom: 2px solid blue;
         }
-        .cell:nth-child({{sectionV3}}) {
+        puzzle-cell:nth-of-type({{sectionV3}}) {
           border-right: 2px solid blue;
         }
-        .cell:{{sectionH3}} {
+        puzzle-cell:{{sectionH3}} {
           border-bottom: 2px solid blue;
         }
-
-        #top-clues {
-          width: {{containerWidth}}px;
-          margin: auto;
-          text-align: center;
-        }
-
-        #left-clues {
-          width: {{containerWidth}}px;
-          margin: auto;
-          text-align: center;
-          transform: rotate(90deg);
-          transform-origin: left top 0;
-        }
-
       </style>
-      <div id="top-clues">Top</div>
-      <div id="left-clues">Left</div>
-      <div id="container" style="width:{{containerWidth}}px;">        
+      <div id="container" style="width:{{containerWidth}}px;">
         {{#squares}}
-        <div class="cell {{class}}" onclick="toggleItem({{row}}, {{col}})"></div>
+        <{{tag}} class="{{class}}" onclick="toggleItem({{row}}, {{col}})"></{{tag}}>
         {{/squares}}
       </div>
     </script>    
