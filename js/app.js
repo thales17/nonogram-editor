@@ -38,9 +38,10 @@ function toggleItem(row, col) {
 }
 
 function renderPuzzle() {
-  var clueCount = Math.ceil((Math.max(width, height) / 2));
-  var w = width + clueCount;
-  var h = height + clueCount;
+  var colClues = Math.ceil(width / 2);
+  var rowClues = Math.ceil(height / 2);
+  var w = width + colClues;
+  var h = height + rowClues;
   var renderObj = {
     containerWidth: w * 22,
     cols: width,
@@ -56,18 +57,25 @@ function renderPuzzle() {
   
   for(var i = 0; i < w*h; i++) {
     var r =  Math.floor(i / w);
-    var c = (i % h);
+    var c = (i % w);
     var tag = "puzzle-clue";
-    if(r-clueCount > -1 && c-clueCount > -1) {
+    if(r-rowClues > -1 && c-colClues > -1) {
       tag = "puzzle-cell";
     }
-    if(r-clueCount < 0 && c-clueCount < 0) {
+    if(r-rowClues < 0 && c-colClues < 0) {
       tag = "puzzle-blank";
     }
+    var activeClass = "";
+    if(r-rowClues > -1 &&  c-colClues > -1) {
+      var idx = (r-rowClues) * width + (c-colClues);
+      if(puzzle[idx]) {
+        activeClass = "active";
+      }
+    }
     renderObj.squares.push({
-      class: (puzzle[i]) ? "active" : "",
-      row: r-clueCount,
-      col: c-clueCount,
+      class: activeClass,
+      row: r-rowClues,
+      col: c-colClues,
       tag: tag,
     });
   }
