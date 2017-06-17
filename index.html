@@ -8,6 +8,7 @@
         width: 20px;
         height: 20px;
         background-color: white;
+        box-sizing: border-box;
         border-right: 1px solid black;
         border-bottom: 1px solid black;
       }
@@ -19,14 +20,16 @@
       puzzle-clue {
         width: 20px;
         height: 20px;
-        background-color: orange;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
+        box-sizing: border-box;
+        background-color: white;
+        text-align: center;
+        padding: 3px;
       }
 
       puzzle-blank {
-        width: 21px;
-        height: 21px;
+        width: 20px;
+        height: 20px;
+        box-sizing: border-box;
         background-color: white;
       }
 
@@ -81,7 +84,7 @@
       </style>
       <div id="container" style="width:{{containerWidth}}px;">
         {{#squares}}
-        <{{tag}} class="{{class}}" onclick="toggleItem({{row}}, {{col}})"></{{tag}}>
+        <{{tag}} class="{{class}}" onclick="toggleItem({{row}}, {{col}})">{{val}}</{{tag}}>
         {{/squares}}
       </div>
     </script>    

@@ -43,7 +43,7 @@ function renderPuzzle() {
   var w = width + colClues;
   var h = height + rowClues;
   var renderObj = {
-    containerWidth: w * 22,
+    containerWidth: w * 20,
     cols: width,
     sectionV1: (width > 5) ? "" + width + "n - " + (width - 5) : "",
     sectionH1: (height > 5) ? "nth-of-type(n + " + ((width * 4) + 1) + "):nth-of-type(-n +" + (width * 5) + ")" : "",
@@ -59,11 +59,14 @@ function renderPuzzle() {
     var r =  Math.floor(i / w);
     var c = (i % w);
     var tag = "puzzle-clue";
+    var val = "0"
     if(r-rowClues > -1 && c-colClues > -1) {
       tag = "puzzle-cell";
+      val = "";
     }
     if(r-rowClues < 0 && c-colClues < 0) {
       tag = "puzzle-blank";
+      val = "";
     }
     var activeClass = "";
     if(r-rowClues > -1 &&  c-colClues > -1) {
@@ -77,6 +80,7 @@ function renderPuzzle() {
       row: r-rowClues,
       col: c-colClues,
       tag: tag,
+      val: val
     });
   }
 
