@@ -61,26 +61,30 @@ function renderPuzzle() {
   // Column Clues
   for(var i = 0; i < width; i++) {
     var idx = i * colCluesCount;
+    var clues = [];
     var clueVal = 0;
     for(var j = i; j < puzzle.length; j += width) {
       if(puzzle[j]) {
         clueVal++;
       } else {
         if(clueVal > 0) {
-          colClues[idx] = clueVal;
-          idx++;
+          clues.unshift(clueVal);
           clueVal = 0;
         }
       }
     }
     if(clueVal > 0) {
-      colClues[idx] = clueVal;
+      clues.unshift(clueVal);
+    }
+    for(var j = 0; j < clues.length; j++) {
+      colClues[idx+j] = clues[j];
     }
   }
 
   // Row Clues
   for(var i = 0; i < height; i++) {
     var idx = i * rowCluesCount;
+    var clues = [];
     var clueVal = 0;
     var start = i * width;
     for(var j = start; j < (start + width); j++) {
@@ -88,15 +92,18 @@ function renderPuzzle() {
         clueVal++;
       } else {
         if(clueVal > 0) {
-          rowClues[idx] = clueVal;
-          idx++;
+          clues.unshift(clueVal);
           clueVal = 0;
         }
       }
     }
 
     if(clueVal > 0) {
-      rowClues[idx] = clueVal;
+      clues.unshift(clueVal);
+    }
+
+    for(var j = 0; j < clues.length; j++) {
+      rowClues[idx+j] = clues[j];
     }
   }
 
