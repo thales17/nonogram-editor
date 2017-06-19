@@ -5,6 +5,20 @@ var height = min;
 var puzzle = new Array(width*height);
 puzzle.fill(false);
 
+function stringifyPuzzle(puzzle) {
+  var puzzleStr = '';
+  var currentStr = '';
+  for(var i = 0; i < puzzle.length; i++) {
+    if(puzzle[i]) {
+      puzzleStr += '1';
+    } else {
+      puzzleStr += '0';
+    }
+  }
+
+  return puzzleStr;
+}
+
 function setSize() {
   width = parseInt(document.getElementById('puzzleWidth').value);
   height = parseInt(document.getElementById('puzzleHeight').value);
@@ -55,7 +69,9 @@ function renderPuzzle() {
     sectionH2: (height > 10) ? 'nth-of-type(n + ' + ((width * 9) + 1) + '):nth-of-type(-n +' + (width * 10) + ')' : '',
     sectionV3: (width > 15) ? '' + width + 'n - ' + (width - 15) : '',
     sectionH3: (height > 15) ? 'nth-of-type(n + ' + ((width * 14) + 1) + '):nth-of-type(-n +' + (width * 15) + ')' : '',
-    squares : []
+    squares : [],
+    rawPuzzleVal: stringifyPuzzle(puzzle),
+    puzzleVal: btoa(stringifyPuzzle(puzzle))
   };
   
   // Column Clues
