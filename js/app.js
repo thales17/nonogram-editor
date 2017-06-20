@@ -4,19 +4,74 @@ var width = min;
 var height = min;
 var puzzle = new Array(width*height);
 puzzle.fill(false);
+puzzleFromCode();
 
 function stringifyPuzzle(puzzle) {
-  var puzzleStr = '';
-  var currentStr = '';
+  var currentCharCode = 0;
+  var puzzleStr = width + ',' + height + ':';
   for(var i = 0; i < puzzle.length; i++) {
-    if(puzzle[i]) {
-      puzzleStr += '1';
-    } else {
-      puzzleStr += '0';
+    var puzzleBit = 0;
+    if(puzzle[i]) { 
+      puzzleBit = 1;
+    }
+    var bitIndex = i % 8;
+    currentCharCode |= (puzzleBit << bitIndex);
+    if(i > 0 && i % 8 == 0) {
+      var char = String.fromCharCode(currentCharCode);
+      puzzleStr += char;
+      currentCharCode = 0;
     }
   }
 
   return puzzleStr;
+}
+
+function puzzleFromCode(code) {
+  code = 'NSw1OkEREA==';
+  var decoded = atob(code);
+  var components = decoded.split(':');
+  if(components.length != 2) {
+    console.error('Invalid code:', code);
+    return;
+  }
+  var header = components[0];
+  var headerComponents = header.split(',');
+  if(headerComponents.length != 2) {
+    console.error('Invalid header in code:', code);
+    return;
+  }
+  var w = parseInt(headerComponents[0]);
+  if(isNaN(w)) {
+    console.error('Invalid width value in code:', code);
+    return;
+  }
+  var h = parseInt(headerComponents[1]);
+  if(isNaN(h)) {
+    console.error('Invalid height value in code:', code);
+    return;
+  }
+
+  var puzzleData = components[1];
+  // if(puzzleData.length < ((w * h) / 8)) {
+  //   console.error('Invalid puzzle data length:', puzzleData.length, 'for w:', w, 'h:', h, 'in code:', code);
+  //   return;
+  // }
+
+  var newPuzzle = new Array(w*h);
+  newPuzzle.fill(false);
+  for(var i = 0; i < puzzleData.length; i++) {
+    var char = puzzleData[i];
+    var charCode = char.charCodeAt(0);
+    for(var j = 0; j < 8; j++) {
+      var mask = 1 << j;
+      console.log(mask.toString(2));
+      newPuzzle[(i*8+j)] = (charCode & mask) != 0;
+    }
+  }
+
+  width = w;
+  height = h;
+  puzzle = newPuzzle;
 }
 
 function setSize() {
@@ -70,7 +125,6 @@ function renderPuzzle() {
     sectionV3: (width > 15) ? '' + width + 'n - ' + (width - 15) : '',
     sectionH3: (height > 15) ? 'nth-of-type(n + ' + ((width * 14) + 1) + '):nth-of-type(-n +' + (width * 15) + ')' : '',
     squares : [],
-    rawPuzzleVal: stringifyPuzzle(puzzle),
     puzzleVal: btoa(stringifyPuzzle(puzzle))
   };
   
